@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataQuest Arcade | 100% Visual & Hands-On Data Analyst & Data Scientist</title>
+  <meta name="description" content="Master all concepts of Data Analysis and Data Science visually through hands-on gamified interactive labs. Zero boring theory, 100% interactive mechanics.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Top Navigation & Gamified Player Status Bar -->
+  <header class="top-nav">
+    <div class="brand-group">
+      <div class="brand-logo">
+        <span class="logo-icon">⚡</span> DataQuest<span style="color: var(--accent-cyan); font-weight: 300;">Arcade</span>
+      </div>
+    </div>
+
+    <!-- Live Player Gamified Stats -->
+    <div class="nav-stats">
+      <div class="player-rank-card" id="player-rank-card">
+        <span class="rank-badge-icon" id="rank-icon">🌱</span>
+        <div class="rank-info">
+          <span class="rank-title" id="rank-title">Data Novice</span>
+          <span class="rank-level" id="rank-level">Level 1</span>
+        </div>
+      </div>
+
+      <div class="xp-bar-wrapper">
+        <div class="xp-bar-header">
+          <span>XP Progress</span>
+          <strong id="xp-label">0 / 150 XP</strong>
+        </div>
+        <div class="xp-bar-bg">
+          <div class="xp-bar-fill" id="nav-xp-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button id="btn-codex-modal" class="btn btn-primary btn-xs" title="Search all Data concepts & guides">
+          📚 Knowledge Codex
+        </button>
+        <button id="btn-badges-modal" class="btn btn-secondary btn-xs" title="View unlocked achievements">
+          🏆 Badges (<span id="unlocked-badge-count">0/12</span>)
+        </button>
+        <button id="btn-sound-toggle" class="btn btn-secondary btn-xs" title="Toggle audio synth FX">
+          🔊 Sound On
+        </button>
+        <button id="btn-reset-progress" class="btn btn-ghost btn-xs" title="Reset all progress">
+          ↺ Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Track Switcher -->
+  <section class="track-switcher-container">
+    <div class="track-tabs">
+      <button id="tab-track-analyst" class="track-tab-btn track-analyst active">
+        <span>📊</span> Track 1: The Data Analyst
+      </button>
+      <button id="tab-track-scientist" class="track-tab-btn track-scientist">
+        <span>🤖</span> Track 2: The Data Scientist
+      </button>
+    </div>
+    <div class="stat-note">
+      🎮 Complete target challenges in each lab to earn XP, level up, and unlock mastery badges!
+    </div>
+  </section>
+
+  <!-- Quest Map / Module Selector Strip -->
+  <nav class="quest-strip" id="quest-strip" aria-label="Curriculum Modules">
+    <!-- Injected dynamically by UIController -->
+  </nav>
+
+  <!-- Main Interactive Workbench Area -->
+  <main class="workbench-container">
+    <div class="lab-card" id="workbench-card">
+      <!-- Active Module Lab Injected Here -->
+    </div>
+  </main>
+
+  <!-- Achievements / Badges Showcase Modal -->
+  <div class="modal-overlay" id="modal-badges">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="section-title">
+          <span>🏆</span> Mastery Badges &amp; Trophies
+        </div>
+        <button id="btn-close-modal" class="btn btn-ghost btn-xs">&times; Close</button>
+      </div>
+      <p class="section-subtitle">
+        Prove your skills in each hands-on interactive workbench to unlock the 12 master badges and claim the title of Grand Data Scientist!
+      </p>
+      <div class="badges-grid" id="modal-badges-grid">
+        <!-- Badges dynamically rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Knowledge Codex Modal -->
+  <div class="modal-overlay" id="modal-codex">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div class="section-title">
+          <span>📚</span> Master Knowledge Codex &amp; Topic Compass
+        </div>
+        <button id="btn-close-codex" class="btn btn-ghost btn-xs">&times; Close</button>
+      </div>
+      <p class="section-subtitle">
+        Search and explore the comprehensive playbook of Data Analysis and Data Science concepts, industry case studies, and interview traps.
+      </p>
+
+      <div class="codex-search-bar">
+        <input type="text" id="codex-search-input" placeholder="Search concepts (e.g., p-value, imputation, gradient descent, Gini, IQR)..." class="search-input" />
+        <div class="btn-group mt-2">
+          <button class="btn btn-xs btn-outline btn-codex-filter active" data-filter="all">All Topics (12)</button>
+          <button class="btn btn-xs btn-outline btn-codex-filter" data-filter="analyst">Data Analyst (5)</button>
+          <button class="btn btn-xs btn-outline btn-codex-filter" data-filter="scientist">Data Scientist (7)</button>
+        </div>
+      </div>
+
+      <div class="codex-grid mt-3" id="modal-codex-grid">
+        <!-- Codex cards injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-Time Floating Toasts -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Main Logic -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

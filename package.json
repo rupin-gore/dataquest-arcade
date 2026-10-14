@@ -1,0 +1,11 @@
+{
+  "name": "dataquest-arcade",
+  "version": "1.0.0",
+  "description": "Gamified, hands-on, zero-theory visual interactive laboratory for Data Analysts and Data Scientists.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Antigravity",
+  "license": "MIT"
+}
