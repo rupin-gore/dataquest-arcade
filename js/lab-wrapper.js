@@ -1,4 +1,4 @@
-// Lab Tab Wrapper: Enhances every lab with Hands-on, Concept Deep-Dive, Code, and Quiz
+// Lab Tab Wrapper: Enhances every lab with Guided Lesson, Simulator, Code, and Quiz
 import { CONTENT_DATABASE } from './content-data.js';
 import { state } from './state.js';
 import { sound } from './audio.js';
@@ -11,33 +11,131 @@ export function wrapModuleWithTabs(moduleId, container, originalRenderer) {
   }
 
   container.innerHTML = `
-    <!-- Sub-Tab Header Bar -->
+    <!-- Top Learning View Switcher Bar -->
     <div class="lab-subtabs-nav">
-      <button class="subtab-btn active" data-tab="interactive">
-        <span>🎮</span> Hands-on Simulator &amp; Challenge
+      <button class="subtab-btn active" data-tab="guided">
+        <span>🌟</span> Guided Chapter (Read &amp; Play)
+      </button>
+      <button class="subtab-btn" data-tab="interactive">
+        <span>🎮</span> Simulator Only
       </button>
       <button class="subtab-btn" data-tab="guide">
-        <span>📖</span> Concept Deep-Dive &amp; Industry Playbook
+        <span>📖</span> Concept Guide Only
       </button>
       <button class="subtab-btn" data-tab="code">
-        <span>💻</span> Production Code (Python &amp; SQL)
+        <span>💻</span> Code Blueprint
       </button>
       <button class="subtab-btn" data-tab="quiz">
-        <span>❓</span> Knowledge Mastery Quiz (+25 XP)
+        <span>❓</span> Quiz &amp; Mastery
       </button>
     </div>
 
-    <!-- Tab 1: Interactive Lab -->
-    <div id="subtab-pane-interactive" class="subtab-pane active">
-      <div id="interactive-inner-container"></div>
+    <!-- View 1: Guided Chapter (All-in-One Full Lesson) -->
+    <div id="subtab-pane-guided" class="subtab-pane active">
+      <!-- Section 1: Concept Primer & Mental Model -->
+      <section class="lesson-section">
+        <div class="lesson-section-header">
+          <span class="section-tag">Chapter 1</span>
+          <h3 class="section-heading">Core Mental Model &amp; Theory Decoded</h3>
+        </div>
+        <div class="concept-sections-list">
+          ${content.coreConcepts.map(c => `
+            <div class="concept-card">
+              <h4 class="concept-heading">${c.heading}</h4>
+              <div class="concept-body">${c.content}</div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
+      <!-- Section 2: Real-World Industry Application -->
+      <section class="lesson-section mt-3">
+        <div class="lesson-section-header">
+          <span class="section-tag">Chapter 2</span>
+          <h3 class="section-heading">Real-World Industry Application</h3>
+        </div>
+        <div class="industry-banner">
+          <div class="industry-badge">🏢 How Top Tech Companies Use This: ${content.industryExample.company}</div>
+          <h4 class="industry-title">${content.industryExample.scenario}</h4>
+          <p class="industry-desc">${content.industryExample.details}</p>
+        </div>
+      </section>
+
+      <!-- Section 3: Interactive Hands-on Workbench & Challenge -->
+      <section class="lesson-section mt-3">
+        <div class="lesson-section-header">
+          <span class="section-tag">Chapter 3</span>
+          <h3 class="section-heading">Interactive Workbench &amp; Hands-On Challenge</h3>
+        </div>
+        <div id="interactive-container-guided" class="interactive-workbench-embed"></div>
+      </section>
+
+      <!-- Section 4: Production Code Blueprint -->
+      <section class="lesson-section mt-3">
+        <div class="lesson-section-header">
+          <span class="section-tag">Chapter 4</span>
+          <h3 class="section-heading">Production Code Blueprint (Python &amp; SQL)</h3>
+        </div>
+        <div class="code-snippets-wrapper">
+          <div class="code-block-card">
+            <div class="code-header">
+              <span>🐍 Production Python Implementation</span>
+              <button class="btn btn-xs btn-outline btn-copy" data-target="code-python-guided">Copy Code</button>
+            </div>
+            <pre><code id="code-python-guided" class="code-snippet">${escapeHtml(content.codeSnippets.python)}</code></pre>
+          </div>
+
+          ${content.codeSnippets.sql ? `
+            <div class="code-block-card mt-3">
+              <div class="code-header">
+                <span>📊 Production SQL Query</span>
+                <button class="btn btn-xs btn-outline btn-copy" data-target="code-sql-guided">Copy Code</button>
+              </div>
+              <pre><code id="code-sql-guided" class="code-snippet">${escapeHtml(content.codeSnippets.sql)}</code></pre>
+            </div>
+          ` : ''}
+        </div>
+      </section>
+
+      <!-- Section 5: Top FAANG Interview Traps -->
+      <section class="lesson-section mt-3">
+        <div class="lesson-section-header">
+          <span class="section-tag">Chapter 5</span>
+          <h3 class="section-heading">Top FAANG &amp; Industry Interview Questions</h3>
+        </div>
+        <div class="interview-traps-card">
+          <div class="traps-list">
+            ${content.interviewTraps.map(t => `
+              <div class="trap-item">
+                <div class="trap-q">❓ <strong>Interview Question: ${t.q}</strong></div>
+                <div class="trap-a">💡 <strong>Winning Answer:</strong> ${t.a}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Knowledge Mastery Quiz -->
+      <section class="lesson-section mt-3">
+        <div class="lesson-section-header">
+          <span class="section-tag">Chapter 6</span>
+          <h3 class="section-heading">Knowledge Mastery Quiz (+25 XP)</h3>
+        </div>
+        <div class="quiz-wrapper" id="quiz-container-guided"></div>
+      </section>
     </div>
 
-    <!-- Tab 2: Concept Deep-Dive -->
+    <!-- View 2: Interactive Simulator Only -->
+    <div id="subtab-pane-interactive" class="subtab-pane">
+      <div id="interactive-container-solo"></div>
+    </div>
+
+    <!-- View 3: Concept Guide Only -->
     <div id="subtab-pane-guide" class="subtab-pane">
       <div class="content-guide-wrapper">
         <div class="industry-banner">
-          <div class="industry-badge">🏢 Real-World Production Case Study: ${content.industryExample.company}</div>
-          <h3 class="industry-title">${content.industryExample.scenario}</h3>
+          <div class="industry-badge">🏢 Case Study: ${content.industryExample.company}</div>
+          <h4 class="industry-title">${content.industryExample.scenario}</h4>
           <p class="industry-desc">${content.industryExample.details}</p>
         </div>
 
@@ -52,7 +150,7 @@ export function wrapModuleWithTabs(moduleId, container, originalRenderer) {
 
         <div class="interview-traps-card">
           <div class="section-title">
-            <span>🎯</span> Top FAANG &amp; Tech Interview Traps
+            <span>🎯</span> Top FAANG &amp; Tech Interview Questions
           </div>
           <div class="traps-list">
             ${content.interviewTraps.map(t => `
@@ -66,40 +164,38 @@ export function wrapModuleWithTabs(moduleId, container, originalRenderer) {
       </div>
     </div>
 
-    <!-- Tab 3: Production Code -->
+    <!-- View 4: Production Code Only -->
     <div id="subtab-pane-code" class="subtab-pane">
       <div class="code-snippets-wrapper">
         <div class="code-block-card">
           <div class="code-header">
             <span>🐍 Python (Pandas / Scikit-Learn / PyTorch)</span>
-            <button class="btn btn-xs btn-outline btn-copy" data-target="code-python">Copy Code</button>
+            <button class="btn btn-xs btn-outline btn-copy" data-target="code-python-solo">Copy Code</button>
           </div>
-          <pre><code id="code-python" class="code-snippet">${escapeHtml(content.codeSnippets.python)}</code></pre>
+          <pre><code id="code-python-solo" class="code-snippet">${escapeHtml(content.codeSnippets.python)}</code></pre>
         </div>
 
         ${content.codeSnippets.sql ? `
           <div class="code-block-card mt-3">
             <div class="code-header">
               <span>📊 Production SQL Query</span>
-              <button class="btn btn-xs btn-outline btn-copy" data-target="code-sql">Copy Code</button>
+              <button class="btn btn-xs btn-outline btn-copy" data-target="code-sql-solo">Copy Code</button>
             </div>
-            <pre><code id="code-sql" class="code-snippet">${escapeHtml(content.codeSnippets.sql)}</code></pre>
+            <pre><code id="code-sql-solo" class="code-snippet">${escapeHtml(content.codeSnippets.sql)}</code></pre>
           </div>
         ` : ''}
       </div>
     </div>
 
-    <!-- Tab 4: Interactive Quiz -->
+    <!-- View 5: Quiz Only -->
     <div id="subtab-pane-quiz" class="subtab-pane">
-      <div class="quiz-wrapper" id="quiz-container">
-        <!-- Rendered dynamically -->
-      </div>
+      <div class="quiz-wrapper" id="quiz-container-solo"></div>
     </div>
   `;
 
-  // Render original interactive workbench into #interactive-inner-container
-  const innerInteractive = container.querySelector('#interactive-inner-container');
-  originalRenderer(innerInteractive);
+  // Render the interactive simulator inside the guided container
+  const guidedSimContainer = container.querySelector('#interactive-container-guided');
+  originalRenderer(guidedSimContainer);
 
   // Tab switching logic
   const tabBtns = container.querySelectorAll('.subtab-btn');
@@ -112,6 +208,14 @@ export function wrapModuleWithTabs(moduleId, container, originalRenderer) {
 
       tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === targetTab));
       panes.forEach(p => p.classList.toggle('active', p.id === `subtab-pane-${targetTab}`));
+
+      // If switching to solo interactive, move or render the simulator
+      if (targetTab === 'interactive') {
+        const soloSimContainer = container.querySelector('#interactive-container-solo');
+        if (soloSimContainer && soloSimContainer.children.length === 0) {
+          originalRenderer(soloSimContainer);
+        }
+      }
     });
   });
 
@@ -130,8 +234,9 @@ export function wrapModuleWithTabs(moduleId, container, originalRenderer) {
     });
   });
 
-  // Render Quiz
-  renderQuiz(container.querySelector('#quiz-container'), content, moduleId);
+  // Render Quiz in both guided and solo containers
+  renderQuiz(container.querySelector('#quiz-container-guided'), content, moduleId);
+  renderQuiz(container.querySelector('#quiz-container-solo'), content, moduleId);
 }
 
 function escapeHtml(text) {
@@ -144,6 +249,7 @@ function escapeHtml(text) {
 }
 
 function renderQuiz(quizContainer, content, moduleId) {
+  if (!quizContainer) return;
   const quizKey = `quiz_${moduleId}`;
   const isCompleted = state.data.completedChallenges[quizKey];
 
@@ -173,10 +279,10 @@ function renderQuiz(quizContainer, content, moduleId) {
     </div>
 
     <div class="quiz-footer mt-3">
-      <button id="btn-submit-quiz" class="btn btn-primary btn-lg">
+      <button class="btn btn-primary btn-lg btn-submit-quiz">
         ${isCompleted ? '✓ Quiz Passed (+25 XP Earned)' : 'Submit Answers & Check Score'}
       </button>
-      <div id="quiz-feedback" class="feedback-msg"></div>
+      <div class="quiz-feedback feedback-msg"></div>
     </div>
   `;
 
@@ -198,55 +304,59 @@ function renderQuiz(quizContainer, content, moduleId) {
     });
   });
 
-  quizContainer.querySelector('#btn-submit-quiz').addEventListener('click', () => {
-    let allCorrect = true;
-    let answeredCount = 0;
+  const submitBtn = quizContainer.querySelector('.btn-submit-quiz');
+  const feedback = quizContainer.querySelector('.quiz-feedback');
 
-    content.quiz.forEach((q, qIdx) => {
-      const card = quizContainer.querySelector(`.quiz-card[data-qidx="${qIdx}"]`);
-      const expl = card.querySelector('.quiz-explanation');
-      const chosen = selectedAnswers[qIdx];
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      let allCorrect = true;
+      let answeredCount = 0;
 
-      if (chosen !== undefined) {
-        answeredCount++;
-        const isCorrect = chosen === q.correct;
-        expl.style.display = 'block';
+      content.quiz.forEach((q, qIdx) => {
+        const card = quizContainer.querySelector(`.quiz-card[data-qidx="${qIdx}"]`);
+        const expl = card.querySelector('.quiz-explanation');
+        const chosen = selectedAnswers[qIdx];
 
-        if (isCorrect) {
-          expl.className = 'quiz-explanation correct';
-          expl.innerHTML = `✓ <strong>Correct!</strong> ${q.explanation}`;
+        if (chosen !== undefined) {
+          answeredCount++;
+          const isCorrect = chosen === q.correct;
+          expl.style.display = 'block';
+
+          if (isCorrect) {
+            expl.className = 'quiz-explanation correct';
+            expl.innerHTML = `✓ <strong>Correct!</strong> ${q.explanation}`;
+          } else {
+            allCorrect = false;
+            expl.className = 'quiz-explanation incorrect';
+            expl.innerHTML = `✗ <strong>Incorrect.</strong> Correct answer is <strong>${String.fromCharCode(65 + q.correct)}</strong>. ${q.explanation}`;
+          }
         } else {
           allCorrect = false;
-          expl.className = 'quiz-explanation incorrect';
-          expl.innerHTML = `✗ <strong>Incorrect.</strong> Correct answer is <strong>${String.fromCharCode(65 + q.correct)}</strong>. ${q.explanation}`;
+        }
+      });
+
+      if (answeredCount < content.quiz.length) {
+        sound.playError();
+        feedback.className = 'quiz-feedback feedback-msg error';
+        feedback.textContent = 'Please answer all questions before submitting!';
+        return;
+      }
+
+      if (allCorrect) {
+        sound.playSuccess();
+        feedback.className = 'quiz-feedback feedback-msg success';
+        feedback.innerHTML = `<strong>Outstanding!</strong> 100% Score! You have fully mastered the core concepts of this domain.`;
+        
+        if (!state.data.completedChallenges[quizKey]) {
+          state.data.completedChallenges[quizKey] = { completedAt: Date.now() };
+          state.addXp(25, `Passed ${content.title} Quiz`);
+          submitBtn.textContent = '✓ Quiz Passed (+25 XP Earned)';
         }
       } else {
-        allCorrect = false;
+        sound.playError();
+        feedback.className = 'quiz-feedback feedback-msg error';
+        feedback.innerHTML = `Review the explanations above and try again to achieve 100% mastery!`;
       }
     });
-
-    const feedback = quizContainer.querySelector('#quiz-feedback');
-    if (answeredCount < content.quiz.length) {
-      sound.playError();
-      feedback.className = 'feedback-msg error';
-      feedback.textContent = 'Please answer all questions before submitting!';
-      return;
-    }
-
-    if (allCorrect) {
-      sound.playSuccess();
-      feedback.className = 'feedback-msg success';
-      feedback.innerHTML = `<strong>Outstanding!</strong> 100% Score! You have fully mastered the core concepts of this domain.`;
-      
-      if (!state.data.completedChallenges[quizKey]) {
-        state.data.completedChallenges[quizKey] = { completedAt: Date.now() };
-        state.addXp(25, `Passed ${content.title} Quiz`);
-        quizContainer.querySelector('#btn-submit-quiz').textContent = '✓ Quiz Passed (+25 XP Earned)';
-      }
-    } else {
-      sound.playError();
-      feedback.className = 'feedback-msg error';
-      feedback.innerHTML = `Review the explanations above and try again to achieve 100% mastery!`;
-    }
-  });
+  }
 }

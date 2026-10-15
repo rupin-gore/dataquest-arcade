@@ -1264,6 +1264,49 @@ svg {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Guided Lesson Section Headers */
+.lesson-section {
+  background: rgba(13, 18, 29, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.lesson-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: var(--bg-card-hover);
+  color: var(--accent-cyan);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glow);
+}
+
+.section-heading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.interactive-workbench-embed {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
 /* Concept Guide & Industry Playbook */
 .content-guide-wrapper {
   display: flex;
@@ -1577,4 +1620,132 @@ svg {
   line-height: 1.45;
   flex-grow: 1;
 }
+
+/* Syllabus Modal Styling */
+.syllabus-tracks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.syllabus-track-block {
+  background: #090d16;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+}
+
+.syllabus-track-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.track-pill {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+}
+
+.track-pill-analyst {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.track-pill-scientist {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--accent-purple);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.syllabus-track-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.syllabus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.syllabus-item-card {
+  background: #04070d;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+.syllabus-item-card:hover {
+  border-color: var(--accent-cyan);
+  background: #0c1220;
+}
+
+.syllabus-item-card.completed {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.syllabus-item-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.syllabus-item-info {
+  flex-grow: 1;
+}
+
+.syllabus-item-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.lab-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.syllabus-item-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.status-indicator {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.syllabus-item-card.completed .status-indicator {
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.syllabus-item-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
 

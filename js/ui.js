@@ -58,6 +58,26 @@ export class UIController {
       });
     }
 
+    // Syllabus Modal
+    const syllabusBtn = document.getElementById('btn-syllabus-modal');
+    const syllabusModal = document.getElementById('modal-syllabus');
+    const closeSyllabusBtn = document.getElementById('btn-close-syllabus');
+
+    if (syllabusBtn && syllabusModal) {
+      syllabusBtn.addEventListener('click', () => {
+        sound.playClick();
+        this.renderSyllabusModal();
+        syllabusModal.classList.add('active');
+      });
+    }
+
+    if (closeSyllabusBtn && syllabusModal) {
+      closeSyllabusBtn.addEventListener('click', () => {
+        sound.playClick();
+        syllabusModal.classList.remove('active');
+      });
+    }
+
     // Codex Modal
     const codexBtn = document.getElementById('btn-codex-modal');
     const codexModal = document.getElementById('modal-codex');
@@ -316,6 +336,99 @@ export class UIController {
       });
 
       grid.appendChild(card);
+    });
+  }
+
+  renderSyllabusModal() {
+    const container = document.getElementById('syllabus-content');
+    if (!container) return;
+
+    const analystModules = MODULE_DEFINITIONS.filter(m => m.track === 'analyst');
+    const scientistModules = MODULE_DEFINITIONS.filter(m => m.track === 'scientist');
+
+    container.innerHTML = `
+      <div class="syllabus-track-block">
+        <div class="syllabus-track-header">
+          <span class="track-pill track-pill-analyst">Track 1</span>
+          <h3>Data Analyst Path: Data Wrangling, SQL, EDA &amp; Experimentation</h3>
+        </div>
+        <p class="syllabus-track-desc">
+          Master the foundational toolkit of commercial data analytics: clean messy production tables, extract insights with complex SQL window functions, perform robust exploratory statistics, track SaaS funnels, and design statistically sound A/B tests.
+        </p>
+        <div class="syllabus-list">
+          ${analystModules.map(m => {
+            const data = CONTENT_DATABASE[m.id];
+            const isCompleted = state.isChallengeCompleted(m.id);
+            return `
+              <div class="syllabus-item-card ${isCompleted ? 'completed' : ''}">
+                <div class="syllabus-item-icon">${m.icon}</div>
+                <div class="syllabus-item-info">
+                  <div class="syllabus-item-top">
+                    <span class="lab-tag">${m.num}</span>
+                    <h4 class="syllabus-item-title">${data ? data.title : m.title}</h4>
+                    <span class="status-indicator">${isCompleted ? '✓ Completed' : 'In Progress'}</span>
+                  </div>
+                  <div class="syllabus-item-meta">
+                    <span>🏢 Case Study: ${data ? data.industryExample.company : 'Industry Standard'}</span>
+                    <span>🏆 Reward: ${m.title} Badge (+100 XP)</span>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-xs btn-syllabus-launch" data-mod="${m.id}" data-track="analyst">
+                  Launch Chapter
+                </button>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="syllabus-track-block mt-3">
+        <div class="syllabus-track-header">
+          <span class="track-pill track-pill-scientist">Track 2</span>
+          <h3>Data Scientist Path: Feature Engineering, ML, Neural Nets &amp; Time Series</h3>
+        </div>
+        <p class="syllabus-track-desc">
+          Build end-to-end predictive machine learning systems: engineer high-dimensional features, minimize convex cost bowls via gradient descent, balance decision tree purity, cluster latent customer spaces, prevent data leakage, and train non-linear neural networks.
+        </p>
+        <div class="syllabus-list">
+          ${scientistModules.map(m => {
+            const data = CONTENT_DATABASE[m.id];
+            const isCompleted = state.isChallengeCompleted(m.id);
+            return `
+              <div class="syllabus-item-card ${isCompleted ? 'completed' : ''}">
+                <div class="syllabus-item-icon">${m.icon}</div>
+                <div class="syllabus-item-info">
+                  <div class="syllabus-item-top">
+                    <span class="lab-tag">${m.num}</span>
+                    <h4 class="syllabus-item-title">${data ? data.title : m.title}</h4>
+                    <span class="status-indicator">${isCompleted ? '✓ Completed' : 'In Progress'}</span>
+                  </div>
+                  <div class="syllabus-item-meta">
+                    <span>🏢 Case Study: ${data ? data.industryExample.company : 'Industry Standard'}</span>
+                    <span>🏆 Reward: ${m.title} Badge (+100 XP)</span>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-xs btn-syllabus-launch" data-mod="${m.id}" data-track="scientist">
+                  Launch Chapter
+                </button>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    container.querySelectorAll('.btn-syllabus-launch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sound.playClick();
+        document.getElementById('modal-syllabus').classList.remove('active');
+        const modId = btn.dataset.mod;
+        const track = btn.dataset.track;
+        state.setActiveTrack(track);
+        state.setActiveModule(modId);
+        this.onModuleSelect(modId);
+        this.update();
+      });
     });
   }
 

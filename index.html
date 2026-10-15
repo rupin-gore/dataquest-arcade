@@ -37,6 +37,9 @@
       </div>
 
       <div class="nav-actions">
+        <button id="btn-syllabus-modal" class="btn btn-outline btn-xs" title="View complete curriculum roadmap and syllabus">
+          📖 Curriculum Syllabus
+        </button>
         <button id="btn-codex-modal" class="btn btn-primary btn-xs" title="Search all Data concepts & guides">
           📚 Knowledge Codex
         </button>
@@ -126,10 +129,29 @@
     </div>
   </div>
 
+  <!-- Master Curriculum Roadmap & Syllabus Modal -->
+  <div class="modal-overlay" id="modal-syllabus">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div class="section-title">
+          <span>📖</span> Complete Learning Syllabus &amp; Roadmap
+        </div>
+        <button id="btn-close-syllabus" class="btn btn-ghost btn-xs">&times; Close</button>
+      </div>
+      <p class="section-subtitle">
+        Your complete step-by-step pathway to mastering both Data Analytics and Data Science. Click any module to jump straight into the guided lesson!
+      </p>
+
+      <div class="syllabus-tracks-container" id="syllabus-content">
+        <!-- Syllabus injected dynamically -->
+      </div>
+    </div>
+  </div>
+
   <!-- Real-Time Floating Toasts -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Application Main Logic -->
-  <script type="module" src="js/app.js"></script>
+  <!-- Application Main Logic: Bundled for 100% offline & file:/// CORS compatibility -->
+  <script src="bundle.js"></script>
 </body>
 </html>
